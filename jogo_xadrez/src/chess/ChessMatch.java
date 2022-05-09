@@ -1,6 +1,9 @@
 package chess;
 
 import boardGame.Board;
+import boardGame.Position;
+import chess.pieces.Rei;
+import chess.pieces.Torre;
 
 
 /*
@@ -14,6 +17,7 @@ public class ChessMatch {
 	
 	public ChessMatch () {
 		board = new Board(8, 8); // especificou a dimensão do tabuleiro
+		initialSetup();
 	}
 
 	/* fará um método para mostrar as camadas de xadrez, com as peças e tabuleiro, e não somente as partes do tabuleiro
@@ -30,5 +34,17 @@ public class ChessMatch {
 			}
 		}
 		return mat;
+	}
+	
+	/*
+	 * Fará método responsável por iniciar a partida de xadrez colocando as peças no tabuleiro
+	 */
+	
+	private void initialSetup() {
+		board.placePiece(new Torre(board, Color.WHITE), new Position(2, 1));
+		board.placePiece(new Rei(board, Color.BLACK), new Position(0, 4));
+		board.placePiece(new Rei(board, Color.WHITE), new Position(7, 4));
+
+
 	}
 }
