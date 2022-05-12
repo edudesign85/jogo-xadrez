@@ -44,13 +44,28 @@ public class Board {
 	 * pegará a matriz pieces na posição dada, linha e coluna, e atribuiu a ela a peça piece informada
 	 * Por último, falara que a peça não estará mais na posição nula, mas sim receberá a nova posição position informada
 	 */
-	
+	 
 	public void placePiece(Piece piece, Position position) { 
 		if (thereIsAPiece(position)) { //exceção para se já tiver uma peça no lugar quando for colocar outra
 			throw new BoardException("There is already a piece on position" + position);
 		}
 		pieces[position.getRow()][position.getColumn()] = piece;
 		piece.position = position;
+	}
+	
+	// fará o método para remover as peças e informar que removeu, lançando exceção caso posição não exista
+	
+	public Piece removePiece(Position position) { // é um método public com o nome removePiece, retornando uma peça que receberá uma posição como argumento
+		if (!positionExists(position)) {
+			throw new BoardException("Position not on the board");
+		}
+		if (piece(position) == null) { // se a peça do tabuleiro nessa posição é igual a nulo
+			return null;
+		}
+		Piece aux = piece(position);
+		aux.position = null; // falou que a posição da peça aux é nula, ou seja, foi retirada do tabuleiro
+		pieces[position.getRow()][position.getColumn()] = null; // falou que a matriz na posição de onde revomeu a peça é nula
+		return aux; // retornou a variável que contem a peça removida
 	}
 	
 	/*
