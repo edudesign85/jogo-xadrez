@@ -54,9 +54,18 @@ public class ChessMatch {
 		return capturedPiece;
 	}
 	
+	/*
+	 * O segundo if do método acessará o tabuleiro. A partir dele acessará a peça na posição de origem
+	 * A partir dessa peça chamará a operação isThereAnyPossibleMove()
+	 * E testará se não existe nenhum movimento possível para essa peçar e lançará exceção
+	 */
+	
 	private void validateSourcePosition(Position position) {
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("There is no piece on source position");
+		}
+		if (!board.piece(position).isThereAnyPossibleMove()) {
+			throw new ChessException("There is no possible moves for the chosen piece");
 		}
 	}
 	
