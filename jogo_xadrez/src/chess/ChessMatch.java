@@ -42,7 +42,8 @@ public class ChessMatch {
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
 		Position source = sourcePosition.toPosition(); // convertendo as duas posições para posição de matriz
 		Position target = targetPosition.toPosition();
-		validateSourcePosition(source); // validará se existe a posição de origem com método criado mais abaixo
+		validateSourcePosition(source); // validará se existe a posição de origem, com método criado mais abaixo
+		validateTargetPosition(source, target); // validará a posição de destino, com método criado mais abaixo
 		Piece capturedPiece = makeMove(source, target); // variável receberá resultado do makeMove, método abaixo para mover as peças já na posição do formato de matriz
 		return (ChessPiece)capturedPiece; // fez downcast da variável, pois era do tipo Piece, superclasse de ChessPiece
 	}
@@ -66,6 +67,13 @@ public class ChessMatch {
 		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible moves for the chosen piece");
+		}
+	}
+	
+
+	private void validateTargetPosition(Position source, Position target) {
+		if (!board.piece(source).possibleMove(target)) {
+			throw new ChessException("The chosen piece can't move to target position");
 		}
 	}
 	
