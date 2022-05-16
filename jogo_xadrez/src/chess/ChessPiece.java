@@ -17,6 +17,10 @@ public abstract class ChessPiece extends Piece {
 		return color;
 	}
 	
+	public ChessPosition getChessPosition() {
+		return ChessPosition.fromPosition(position);
+	}
+	
 	// irá verificar se tem uma peça adversária, de cor diferente, em uma posição, usando downcasting em p 
 	protected boolean isThereOpponentPiece(Position position) {
 		ChessPiece p = (ChessPiece)getBoard().piece(position);
