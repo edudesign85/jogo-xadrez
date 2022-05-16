@@ -1,5 +1,8 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import boardGame.Board;
 import boardGame.Piece;
 import boardGame.Position;
@@ -17,6 +20,9 @@ public class ChessMatch {
 	private int turn;
 	private Color currentPlayer;
 	private Board board;
+	
+	private List<Piece> piecesOnTheBoard = new ArrayList<>();
+	private List<Piece> capturedPieces = new ArrayList<>();
 	
 	public ChessMatch () {
 		board = new Board(8, 8); // especificou a dimensão do tabuleiro
@@ -67,10 +73,19 @@ public class ChessMatch {
 		return (ChessPiece)capturedPiece; // fez downcast da variável, pois era do tipo Piece, superclasse de ChessPiece
 	}
 	
+	/*
+	 * Quando mover uma peça vai verificar se esse movimento causou uma captura de peças
+	 * Se capturou, retira do tabuleiro e coloca na lista de peças capturadas
+	 */
 	private Piece makeMove(Position source, Position target) {
 		Piece p = board.removePiece(source); //retirou a peça da posição de origem
 		Piece capturedPiece = board.removePiece(target); // removeu a possível peça da posição de destino e será a peça capturada
 		board.placePiece(p, target); // colocou a peça p retirada na posição de destino
+		if (capturedPiece != null) {
+			piecesOnTheBoard.remove(capturedPiece); // retirou a peça da lista de peças do tabuleiro
+			capturedPieces.add(capturedPiece); // colocou na lista de peças capturadas
+		}
+		
 		return capturedPiece;
 	}
 	
@@ -105,12 +120,13 @@ public class ChessMatch {
 	}
 	
 	/*
-	 * Fará método responsável por iniciar a partida de xadrez colocando as peças no tabuleiro
+	 * Fará método responsável por iniciar a partida de xadrez colocando as peças no tabuleiro e na lista de peças do tabuleiro
 	 * Usará método para converter da posição de matriz para o sistema de coordenadas do xadrez
 	 */
 	
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
 		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+		piecesOnTheBoard.add(piece);
 	}
 	
 	private void initialSetup() {
