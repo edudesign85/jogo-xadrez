@@ -23,10 +23,10 @@ public class Program {
 		List<ChessPiece> captured = new ArrayList<>();
 
 
-		while (true) {
+		while (!chessMatch.getCheckMate()) { //enquanto não houver check mate
 			try {
 				UI.clearScreen();
-				UI.printMatch(chessMatch);
+				UI.printMatch(chessMatch, captured);
 				System.out.println();
 				System.out.print("Source: ");
 				ChessPosition source = UI.readChessPosition(sc);
@@ -52,5 +52,7 @@ public class Program {
 				sc.nextLine();
 			}
 		}
+		UI.clearScreen();
+		UI.printMatch(chessMatch, captured);
 	}
 }
