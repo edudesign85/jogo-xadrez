@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import boardGame.Board;
 import boardGame.Piece;
 import boardGame.Position;
+import chess.pieces.Peao;
 import chess.pieces.Rei;
 import chess.pieces.Torre;
 
@@ -105,7 +106,8 @@ public class ChessMatch {
 	 * Se capturou, retira do tabuleiro e coloca na lista de peças capturadas
 	 */
 	private Piece makeMove(Position source, Position target) {
-		Piece p = board.removePiece(source); //retirou a peça da posição de origem
+		ChessPiece p = (ChessPiece)board.removePiece(source); //retirou a peça da posição de origem
+		p.increaseMoveCount(); // aumentar a contagem dos movimentos
 		Piece capturedPiece = board.removePiece(target); // removeu a possível peça da posição de destino e será a peça capturada
 		board.placePiece(p, target); // colocou a peça p retirada na posição de destino
 		if (capturedPiece != null) {
@@ -118,7 +120,8 @@ public class ChessMatch {
 	
 	// operação para desfazer movimento caso pessoa se ponha em cheque, risco de cheque mate
 	private void undoMove(Position source, Position target, Piece capturedPiece) { // recebe também possóvel peça capturada
-		Piece p = board.removePiece(target);
+		ChessPiece p = (ChessPiece)board.removePiece(target);
+		p.decreaseMoveCount();
 		board.placePiece(p, source);
 
 		if (capturedPiece != null) {
@@ -127,6 +130,7 @@ public class ChessMatch {
 			piecesOnTheBoard.add(capturedPiece);
 		}
 	}
+	
 	
 	/*
 	 * O segundo if do método acessará o tabuleiro. A partir dele acessará a peça na posição de origem
@@ -220,11 +224,30 @@ public class ChessMatch {
 	}
 	
 	private void initialSetup() {
-        placeNewPiece('h', 7, new Torre(board, Color.WHITE));
-        placeNewPiece('d', 1, new Torre(board, Color.WHITE));
+		placeNewPiece('a', 1, new Torre(board, Color.WHITE));
         placeNewPiece('e', 1, new Rei(board, Color.WHITE));
+        placeNewPiece('h', 1, new Torre(board, Color.WHITE));
+        placeNewPiece('a', 2, new Peao(board, Color.WHITE));
+        placeNewPiece('b', 2, new Peao(board, Color.WHITE));
+        placeNewPiece('c', 2, new Peao(board, Color.WHITE));
+        placeNewPiece('d', 2, new Peao(board, Color.WHITE));
+        placeNewPiece('e', 2, new Peao(board, Color.WHITE));
+        placeNewPiece('f', 2, new Peao(board, Color.WHITE));
+        placeNewPiece('g', 2, new Peao(board, Color.WHITE));
+        placeNewPiece('h', 2, new Peao(board, Color.WHITE));
+        
+        placeNewPiece('a', 8, new Torre(board, Color.BLACK));
+        placeNewPiece('e', 8, new Rei(board, Color.BLACK));
+        placeNewPiece('h', 8, new Torre(board, Color.BLACK));
+        placeNewPiece('a', 7, new Peao(board, Color.BLACK));
+        placeNewPiece('b', 7, new Peao(board, Color.BLACK));
+        placeNewPiece('c', 7, new Peao(board, Color.BLACK));
+        placeNewPiece('d', 7, new Peao(board, Color.BLACK));
+        placeNewPiece('e', 7, new Peao(board, Color.BLACK));
+        placeNewPiece('f', 7, new Peao(board, Color.BLACK));
+        placeNewPiece('g', 7, new Peao(board, Color.BLACK));
+        placeNewPiece('h', 7, new Peao(board, Color.BLACK));
 
-        placeNewPiece('b', 8, new Torre(board, Color.BLACK));
-        placeNewPiece('a', 8, new Rei(board, Color.BLACK));
+      
 	}
 }

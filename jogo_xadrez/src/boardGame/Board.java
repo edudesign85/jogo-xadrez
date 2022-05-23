@@ -14,7 +14,8 @@ public class Board {
 		this.columns = columns;
 		pieces = new Piece[rows][columns];
 	}
-
+	
+	
 	// vai retirar setRows e setColumns, para impedir que sejam alterados esses dados
 	
 	public int getRows() {
